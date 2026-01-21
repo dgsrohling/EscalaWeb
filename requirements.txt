@@ -1,0 +1,53 @@
+# ========================================
+# EscalaWeb - Dependências Python
+# ========================================
+
+# Flask Core
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# Banco de Dados
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.23
+
+# Autenticação
+Flask-Login==0.6.3
+Flask-Bcrypt==1.0.1
+
+# Formulários e Validação
+Flask-WTF==1.2.1
+WTForms==3.1.1
+email-validator==2.1.0
+
+# Geração de Excel
+openpyxl==3.1.2
+
+# Data e Hora
+python-dateutil==2.8.2
+
+# Variáveis de Ambiente
+python-dotenv==1.0.0
+
+# Paginação
+Flask-Paginate==2024.4.12
+
+# CORS (se necessário para API)
+Flask-CORS==4.0.0
+
+# Migrações de Banco (opcional mas recomendado)
+Flask-Migrate==4.0.5
+
+# Timezone
+pytz==2024.1
+
+# PostgreSQL (se for usar em produção)
+psycopg2-binary==2.9.9
+
+# Logs e Monitoramento
+python-json-logger==2.0.7
+
+# Segurança
+MarkupSafe==2.1.3
+
+# Utilitários
+click==8.1.7
