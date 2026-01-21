@@ -1,0 +1,4 @@
+"""
+Modelo de Escala
+"""
+

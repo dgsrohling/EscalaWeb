@@ -1,0 +1,205 @@
+# ========================================
+# .gitignore para EscalaWeb
+# Sistema de Gestão de Escalas de Sobreaviso
+# ========================================
+
+# ===== Python =====
+# Bytecode / Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Ambientes virtuais
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# Distribuição / Packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# ===== Flask =====
+instance/
+.webassets-cache
+
+# ===== Banco de Dados =====
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+
+# Backup de banco
+*.db.backup
+*.sql.backup
+
+# ===== Arquivos de Configuração Sensíveis =====
+.env
+.env.local
+.env.*.local
+*.env
+
+# Manter apenas o exemplo
+!.env.example
+
+# ===== Logs =====
+logs/*.log
+logs/*.txt
+*.log
+*.log.*
+
+# ===== Exports / Arquivos Gerados =====
+exports/*.xlsx
+exports/*.xls
+exports/*.pdf
+exports/*.zip
+
+# Manter diretório mas ignorar conteúdo
+!exports/.gitkeep
+!logs/.gitkeep
+!database/.gitkeep
+
+# ===== IDEs e Editores =====
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+.idea_modules/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ===== Sistema Operacional =====
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# ===== Temporários =====
+*.tmp
+*.temp
+*.bak
+*.old
+tmp/
+temp/
+
+# ===== Uploads de Usuários (se houver) =====
+uploads/*.xlsx
+uploads/*.xls
+uploads/*.pdf
+uploads/*.jpg
+uploads/*.png
+
+# ===== Certificados e Chaves =====
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+
+# ===== Outros =====
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath
+*.sage.py
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+# mkdocs
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# ===== Específico do Projeto =====
+# Arquivos de teste
+test_uploads/
+test_exports/
+
+# Documentação gerada
+docs/_build/
+
+# Cache de sessões Flask
+flask_session/

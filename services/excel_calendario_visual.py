@@ -1,0 +1,4 @@
+"""
+Gerador do calendário visual
+"""
+

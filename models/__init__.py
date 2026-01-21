@@ -1,0 +1,4 @@
+"""
+Inicialização dos modelos
+"""
+

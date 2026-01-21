@@ -1,0 +1,4 @@
+"""
+Inicialização das rotas
+"""
+
