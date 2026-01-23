@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Nova Escala - Passo 3{% endblock %}
+{% block content %}
+<h1><i class="bi bi-calendar-plus"></i> Nova Escala - Passo 3/3</h1>
+<p class="text-muted">Revisar e publicar a escala</p>
+
+<div class="card">
+    <div class="card-body">
+        <h5>Competência: {{ escala.get_competencia_display() }}</h5>
+        <p>Total de distribuições: {{ distribuicao_por_dia|length }}</p>
+        
+        <form method="POST">
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-check-circle"></i> Publicar Escala
+            </button>
+            <a href="{{ url_for('escalas.visualizar', id=escala.id) }}" class="btn btn-secondary">
+                Revisar Depois
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

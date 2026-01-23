@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar' if servidor else 'Novo' }} Servidor{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-12">
+        <h1><i class="bi bi-person"></i> {{ 'Editar' if servidor else 'Novo' }} Servidor</h1>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="matricula" class="form-label">Matrícula *</label>
+                    <input type="text" class="form-control" id="matricula" name="matricula" 
+                           value="{{ servidor.matricula if servidor else '' }}" 
+                           required maxlength="20">
+                </div>
+                
+                <div class="col-md-9 mb-3">
+                    <label for="nome_completo" class="form-label">Nome Completo *</label>
+                    <input type="text" class="form-control" id="nome_completo" name="nome_completo" 
+                           value="{{ servidor.nome_completo if servidor else '' }}" 
+                           required maxlength="200">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="tipo_grupo" class="form-label">Tipo de Grupo *</label>
+                    <select class="form-select" id="tipo_grupo" name="tipo_grupo" required>
+                        <option value="">Selecione...</option>
+                        <option value="GERAL" {{ 'selected' if servidor and servidor.tipo_grupo == 'GERAL' }}>
+                            GERAL
+                        </option>
+                        <option value="SAUDE_17H" {{ 'selected' if servidor and servidor.tipo_grupo == 'SAUDE_17H' }}>
+                            SAÚDE 17h
+                        </option>
+                        <option value="SAUDE_17H30" {{ 'selected' if servidor and servidor.tipo_grupo == 'SAUDE_17H30' }}>
+                            SAÚDE 17h30
+                        </option>
+                    </select>
+                </div>
+                
+                <div class="col-md-8 mb-3">
+                    <label for="secretaria_id" class="form-label">Secretaria</label>
+                    <select class="form-select" id="secretaria_id" name="secretaria_id">
+                        <option value="">Nenhuma (apenas para SAÚDE)</option>
+                        {% for sec in secretarias %}
+                        <option value="{{ sec.id }}" 
+                                {{ 'selected' if servidor and servidor.secretaria_id == sec.id }}>
+                            {{ sec.sigla }} - {{ sec.nome }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <small class="text-muted">Obrigatório para servidores do tipo GERAL</small>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="telefone" class="form-label">Telefone</label>
+                    <input type="tel" class="form-control" id="telefone" name="telefone" 
+                           value="{{ servidor.telefone if servidor else '' }}" 
+                           placeholder="(00) 00000-0000">
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" 
+                           value="{{ servidor.email if servidor else '' }}" 
+                           placeholder="servidor@email.com">
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="ativo" name="ativo" 
+                           {{ 'checked' if not servidor or servidor.ativo else '' }}>
+                    <label class="form-check-label" for="ativo">Ativo</label>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Salvar
+                </button>
+                <a href="{{ url_for('servidores.lista') }}" class="btn btn-secondary">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

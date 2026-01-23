@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1><i class="bi bi-speedometer2"></i> Dashboard</h1>
+        <p class="text-muted">Visão geral do sistema de escalas</p>
+    </div>
+</div>
+
+<!-- Filtro de Período -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Mês</label>
+                        <select name="mes" class="form-select">
+                            {% for m in range(1, 13) %}
+                            <option value="{{ m }}" {% if m == mes %}selected{% endif %}>
+                                {{ ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][m-1] }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Ano</label>
+                        <select name="ano" class="form-select">
+                            {% for a in range(hoje.year - 2, hoje.year + 2) %}
+                            <option value="{{ a }}" {% if a == ano %}selected{% endif %}>{{ a }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">&nbsp;</label>
+                        <button type="submit" class="btn btn-primary d-block w-100">
+                            <i class="bi bi-funnel"></i> Filtrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cards de Estatísticas -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-people"></i> Servidores</h5>
+                <h2 class="mb-0">{{ stats_gerais.total_servidores }}</h2>
+                <small>Servidores ativos</small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-calendar-check"></i> Plantões</h5>
+                <h2 class="mb-0">{{ stats_gerais.total_plantoes }}</h2>
+                <small>No período</small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-clock-history"></i> Horas</h5>
+                <h2 class="mb-0">{{ stats_gerais.total_horas_display }}</h2>
+                <small>Total trabalhado</small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-percent"></i> Ocupação</h5>
+                <h2 class="mb-0">{{ "%.1f"|format(taxa_ocupacao) }}%</h2>
+                <small>Taxa do mês</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Top Plantonistas -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-trophy"></i> Top 10 Plantonistas</h5>
+            </div>
+            <div class="card-body">
+                {% if top_plantonistas %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome</th>
+                                <th>Matrícula</th>
+                                <th class="text-end">Horas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in top_plantonistas %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ item.nome }}</td>
+                                <td>{{ item.matricula }}</td>
+                                <td class="text-end"><strong>{{ item.total_horas_display }}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">Nenhum plantão registrado no período</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Distribuição por Grupo -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-pie-chart"></i> Distribuição por Grupo</h5>
+            </div>
+            <div class="card-body">
+                {% if distribuicao_grupos %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Grupo</th>
+                                <th class="text-end">Plantões</th>
+                                <th class="text-end">Horas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tipo, dados in distribuicao_grupos.items() %}
+                            <tr>
+                                <td>
+                                    {% if tipo == 'GERAL' %}GERAL
+                                    {% elif tipo == 'SAUDE_17H' %}SAÚDE 17h
+                                    {% elif tipo == 'SAUDE_17H30' %}SAÚDE 17h30
+                                    {% else %}{{ tipo }}{% endif %}
+                                </td>
+                                <td class="text-end">{{ dados.total_plantoes }}</td>
+                                <td class="text-end"><strong>{{ dados.total_horas_display }}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">Nenhum plantão registrado no período</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Escalas do Mês -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-calendar-week"></i> Escalas do Mês</h5>
+            </div>
+            <div class="card-body">
+                {% if escalas_mes %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Competência</th>
+                                <th>Status</th>
+                                <th>Criado por</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for escala in escalas_mes %}
+                            <tr>
+                                <td>{{ escala.tipo_escala }}</td>
+                                <td>{{ escala.get_competencia_display() }}</td>
+                                <td>
+                                    <span class="badge bg-{% if escala.status == 'PUBLICADA' %}success
+                                        {% elif escala.status == 'RASCUNHO' %}warning
+                                        {% elif escala.status == 'FINALIZADA' %}info
+                                        {% else %}secondary{% endif %}">
+                                        {{ escala.get_status_display() }}
+                                    </span>
+                                </td>
+                                <td>{{ escala.criado_por.nome_completo if escala.criado_por else '-' }}</td>
+                                <td class="text-end">
+                                    <a href="{{ url_for('escalas.visualizar', id=escala.id) }}" 
+                                       class="btn btn-sm btn-primary">
+                                        <i class="bi bi-eye"></i> Ver
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">Nenhuma escala criada para este mês</p>
+                <a href="{{ url_for('escalas.criar_passo1') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Criar Nova Escala
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// Aqui você pode adicionar gráficos Chart.js se necessário
+</script>
+{% endblock %}

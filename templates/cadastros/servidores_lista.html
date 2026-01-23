@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Servidores{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-6">
+        <h1><i class="bi bi-people"></i> Servidores</h1>
+    </div>
+    <div class="col-md-6 text-end">
+        <a href="{{ url_for('servidores.novo') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Novo Servidor
+        </a>
+    </div>
+</div>
+
+<!-- Filtros -->
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Buscar</label>
+                <input type="text" class="form-control" name="busca" value="{{ busca }}" 
+                       placeholder="Nome ou matrícula">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Tipo de Grupo</label>
+                <select name="tipo_grupo" class="form-select">
+                    <option value="">Todos</option>
+                    <option value="GERAL" {{ 'selected' if tipo_grupo == 'GERAL' }}>GERAL</option>
+                    <option value="SAUDE_17H" {{ 'selected' if tipo_grupo == 'SAUDE_17H' }}>SAÚDE 17h</option>
+                    <option value="SAUDE_17H30" {{ 'selected' if tipo_grupo == 'SAUDE_17H30' }}>SAÚDE 17h30</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Secretaria</label>
+                <select name="secretaria_id" class="form-select">
+                    <option value="">Todas</option>
+                    {% for sec in secretarias %}
+                    <option value="{{ sec.id }}" {{ 'selected' if secretaria_id == sec.id }}>
+                        {{ sec.sigla }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">&nbsp;</label>
+                <button type="submit" class="btn btn-primary d-block w-100">
+                    <i class="bi bi-funnel"></i> Filtrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nome</th>
+                        <th>Tipo Grupo</th>
+                        <th>Secretaria</th>
+                        <th>Status</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for serv in servidores %}
+                    <tr>
+                        <td><strong>{{ serv.matricula }}</strong></td>
+                        <td>{{ serv.nome_completo }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ serv.get_tipo_grupo_display() }}</span>
+                        </td>
+                        <td>{{ serv.secretaria.sigla if serv.secretaria else '-' }}</td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if serv.ativo else 'secondary' }}">
+                                {{ 'Ativo' if serv.ativo else 'Inativo' }}
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <a href="{{ url_for('servidores.editar', id=serv.id) }}" 
+                               class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('servidores.toggle_ativo', id=serv.id) }}" 
+                                  style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-{{ 'secondary' if serv.ativo else 'success' }}">
+                                    <i class="bi bi-{{ 'slash-circle' if serv.ativo else 'check-circle' }}"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">Nenhum servidor encontrado</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

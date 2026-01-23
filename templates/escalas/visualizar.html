@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Visualizar Escala{% endblock %}
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-6">
+        <h1><i class="bi bi-calendar-week"></i> Escala - {{ escala.get_competencia_display() }}</h1>
+        <p class="text-muted">Tipo: {{ escala.tipo_escala }} | Status: {{ escala.get_status_display() }}</p>
+    </div>
+    <div class="col-md-6 text-end">
+        <a href="{{ url_for('escalas.gerar_excel_3_grupos', id=escala.id) }}" class="btn btn-success">
+            <i class="bi bi-file-earmark-excel"></i> Gerar Excel 3 Grupos
+        </a>
+        {% if escala.tipo_escala == 'GERAL' %}
+        <a href="{{ url_for('escalas.gerar_excel_calendario', id=escala.id) }}" class="btn btn-info">
+            <i class="bi bi-calendar3"></i> Gerar Calendário
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <p>Estatísticas: {{ estatisticas.total_dias }} dias distribuídos | 
+           {{ estatisticas.total_servidores }} servidores escalados</p>
+    </div>
+</div>
+{% endblock %}

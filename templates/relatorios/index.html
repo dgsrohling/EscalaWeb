@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Relatórios{% endblock %}
+{% block content %}
+<h1><i class="bi bi-file-earmark-bar-graph"></i> Relatórios</h1>
+<p class="text-muted">Central de relatórios e estatísticas</p>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5><i class="bi bi-bar-chart"></i> Estatísticas Gerais</h5>
+                <p class="text-muted">Visão geral do sistema</p>
+                <a href="{{ url_for('relatorios.estatisticas') }}" class="btn btn-primary">Acessar</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5><i class="bi bi-graph-up"></i> Comparativo Mensal</h5>
+                <p class="text-muted">Gráficos e comparações</p>
+                <a href="{{ url_for('relatorios.comparativo_mensal') }}" class="btn btn-primary">Acessar</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5><i class="bi bi-percent"></i> Taxa de Ocupação</h5>
+                <p class="text-muted">Ocupação mensal</p>
+                <a href="{{ url_for('relatorios.taxa_ocupacao') }}" class="btn btn-primary">Acessar</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
