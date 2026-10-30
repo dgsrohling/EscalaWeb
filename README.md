@@ -153,11 +153,11 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 👥 Autores
 
-- **Desenvolvedor Principal** - Desenvolvimento inicial
+- **Desenvolvedor Principal** - D. Rohling
 
 ## 📧 Contato
 
-Para dúvidas ou sugestões, entre em contato através de [seu-email@exemplo.com]
+Para dúvidas ou sugestões, entre em contato através de dio_rohling@hotmail.com
 
 ---
 
